@@ -415,6 +415,63 @@ nav.links a.active{color:var(--accent-dark);}
 .about-visual canvas{width:100%;height:100%;display:block;}
 @media(max-width:900px){.about-visual{order:-1;max-height:220px;}}
 
+/* ---- About: premium interactive-guitar composition (top of section) ---- */
+.about-hero-grid{
+  display:grid;grid-template-columns:.95fr 1.05fr;gap:56px;align-items:center;
+  margin-bottom:88px;
+}
+@media(max-width:900px){
+  .about-hero-grid{grid-template-columns:1fr;gap:36px;margin-bottom:56px;}
+}
+.about-3d-stage{
+  position:relative;aspect-ratio:4/5;border-radius:var(--radius);
+  background:
+    radial-gradient(circle at 50% 28%, rgba(200,121,50,.35), transparent 60%),
+    linear-gradient(165deg, var(--text) 0%, #3a3024 100%);
+  overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow);
+}
+@media(max-width:900px){
+  .about-3d-stage{order:2;aspect-ratio:4/3;max-height:380px;}
+}
+.about-3d-stage canvas{width:100%;height:100%;display:block;cursor:grab;touch-action:none;}
+.about-3d-stage canvas:active{cursor:grabbing;}
+.about-3d-fallback{position:absolute;inset:0;display:none;align-items:center;justify-content:center;}
+.about-3d-glow{
+  position:absolute;top:50%;left:50%;width:74%;height:74%;
+  transform:translate(-50%,-50%);border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle, rgba(247,242,232,.16), transparent 70%);
+}
+.about-3d-ring{
+  position:absolute;top:50%;left:50%;border:1px solid rgba(247,242,232,.14);
+  border-radius:50%;pointer-events:none;transform:translate(-50%,-50%);
+}
+.about-3d-ring.r1{width:60%;height:60%;}
+.about-3d-ring.r2{width:80%;height:80%;border-color:rgba(247,242,232,.08);}
+.about-3d-hint{
+  position:absolute;bottom:16px;left:50%;transform:translateX(-50%);
+  font-family:var(--font-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  color:rgba(247,242,232,.55);display:flex;align-items:center;gap:8px;transition:opacity .4s var(--ease);
+}
+.about-3d-hint svg{width:14px;height:14px;}
+@media(max-width:900px){.about-hero-copy{order:1;}}
+.about-hero-copy h2{font-size:clamp(28px,3.6vw,44px);margin:16px 0 20px;}
+.about-hero-copy p{color:var(--muted);margin-bottom:16px;font-size:16.5px;max-width:520px;}
+.about-feature-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px;margin-top:30px;
+}
+.about-feature-card{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-sm);
+  padding:18px 16px;transition:transform .35s var(--ease), border-color .35s var(--ease), box-shadow .35s var(--ease);
+}
+.about-feature-card:hover{transform:translateY(-4px);border-color:var(--accent);box-shadow:var(--shadow);}
+.about-feature-icon{
+  width:34px;height:34px;border-radius:50%;background:var(--surface-deep);
+  display:flex;align-items:center;justify-content:center;color:var(--accent-dark);margin-bottom:10px;
+}
+.about-feature-icon svg{width:17px;height:17px;}
+.about-feature-card h5{font-family:var(--font-body);font-weight:700;font-size:14.5px;margin-bottom:4px;color:var(--text);}
+.about-feature-card p{font-size:12.5px;color:var(--muted);margin:0;}
+
 /* ============ UPCOMING — signature section ============ */
 #upcoming{
   background:var(--text);color:var(--surface);
@@ -765,20 +822,30 @@ footer{background:var(--text);color:rgba(247,242,232,.7);padding:60px 0 30px;}
 
 <!-- ============ ABOUT ============ -->
 <section id="about">
-  <div class="wrap about-grid">
-    <div class="about-portrait reveal">
-      <svg width="55%" viewBox="0 0 120 160" fill="none">
-        <rect x="10" y="10" width="100" height="140" rx="14" fill="#fffaf1" stroke="#2b241d" stroke-width="1.5" opacity=".6"/>
-        <circle cx="60" cy="60" r="18" fill="#c87932" opacity=".5"/>
-        <rect x="30" y="90" width="60" height="10" rx="5" fill="#8f4f20" opacity=".4"/>
-        <rect x="30" y="108" width="40" height="10" rx="5" fill="#8f4f20" opacity=".3"/>
-      </svg>
+  <div class="wrap about-hero-grid">
+    <div class="about-3d-stage reveal">
+      <div class="about-3d-ring r2" aria-hidden="true"></div>
+      <div class="about-3d-ring r1" aria-hidden="true"></div>
+      <div class="about-3d-glow" aria-hidden="true"></div>
+      <canvas id="about-guitar-canvas" aria-label="Interactive 3D electric guitar — drag to rotate" data-cursor="drag"></canvas>
+      <div class="about-3d-fallback" id="about-3d-fallback">
+        <svg width="46%" viewBox="0 0 140 300" fill="none">
+          <path d="M70 8c26 0 34 22 32 40-2 14-16 18-14 30 2 10 22 12 22 38 0 24-22 34-40 34s-42-10-42-34c0-26 20-28 22-38 2-12-12-16-14-30-2-18 8-40 34-40Z" fill="#f3e6cf" stroke="#e9dcc0" stroke-width="2"/>
+          <rect x="62" y="150" width="16" height="120" rx="5" fill="#f3e6cf" stroke="#e9dcc0" stroke-width="1.5"/>
+          <rect x="52" y="18" width="36" height="24" rx="4" fill="#2b241d"/>
+        </svg>
+      </div>
+      <div class="about-3d-hint" id="about-3d-hint">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12h6M9 12l2-2M9 12l2 2M15 12l-2-2M15 12l-2 2"/></svg>
+        <span id="about-3d-hint-text">Drag to rotate</span>
+      </div>
     </div>
-    <div class="about-copy reveal">
+    <div class="about-hero-copy reveal">
       <div class="eyebrow">About Next Note</div>
       <h2>More Than Just Guitar Lessons.</h2>
       <p>Next Note is about learning guitar the practical way — building confidence, understanding music, and playing songs you actually love, through chords, tabs, rhythm and technique.</p>
       <p>Learning guitar should not feel like memorizing endless rules. The goal is to understand the instrument, build confidence, and enjoy the process — one note at a time.</p>
+      <div class="about-feature-grid" id="about-feature-grid"></div>
     </div>
   </div>
 
@@ -1005,6 +1072,14 @@ const whyCards = [
   {title:'Progress Focused',text:'Build skills step-by-step.'}
 ];
 
+const aboutFeatures = [
+  {icon:'chord', title:'Chords', text:'Learn essential chords and progressions.'},
+  {icon:'song', title:'Songs', text:'Learn to play songs step by step.'},
+  {icon:'technique', title:'Techniques', text:'Practice strumming, picking, rhythm and more.'},
+  {icon:'tabs', title:'Tabs', text:'Understand and use guitar tabs.'},
+  {icon:'basics', title:'Music Basics', text:'Build practical musical understanding.'}
+];
+
 // Sample placeholders — replace with real students/clients.
 const clients = [
   { name:"Aarav Sharma", image:"", lessonType:"Offline Student · Delhi", description:"My teacher explains every chord and technique in a very simple way, which made it much easier for me to learn as a beginner", link:"" },
@@ -1047,6 +1122,27 @@ whyCards.forEach(c=>{
   el.innerHTML = `<h4>${c.title}</h4><p>${c.text}</p>`;
   whyGrid.appendChild(el);
 });
+
+/* RENDER: ABOUT FEATURE HIGHLIGHTS */
+function aboutFeatureIcon(type){
+  const icons = {
+    chord: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="4" width="16" height="16" rx="2"/><circle cx="9" cy="9" r="1.1" fill="currentColor" stroke="none"/><circle cx="15" cy="9" r="1.1" fill="currentColor" stroke="none"/><circle cx="9" cy="15" r="1.1" fill="currentColor" stroke="none"/></svg>',
+    song: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg>',
+    technique: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12c2-4 4-4 6 0s4 4 6 0 4-4 6 0"/></svg>',
+    tabs: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="14" y2="17"/></svg>',
+    basics: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="8" cy="17" r="3"/><path d="M11 17V4l9 2"/></svg>'
+  };
+  return icons[type] || icons.basics;
+}
+const aboutFeatureGrid = document.getElementById('about-feature-grid');
+if(aboutFeatureGrid){
+  aboutFeatures.forEach(f=>{
+    const el = document.createElement('div');
+    el.className='about-feature-card reveal';
+    el.innerHTML = `<div class="about-feature-icon">${aboutFeatureIcon(f.icon)}</div><h5>${f.title}</h5><p>${f.text}</p>`;
+    aboutFeatureGrid.appendChild(el);
+  });
+}
 
 /* =======================================================================
    RENDER: CLIENTS MARQUEE
@@ -1344,7 +1440,7 @@ document.querySelectorAll('section .reveal').forEach(el=>{
 });
 
 // staggered card groups
-[['.service-card','#services'],['.topic-card','#topics'],['.why-card','#why']].forEach(([sel,scope])=>{
+[['.service-card','#services'],['.topic-card','#topics'],['.why-card','#why'],['.about-feature-card','#about']].forEach(([sel,scope])=>{
   const items = document.querySelectorAll(scope+' '+sel);
   gsap.set(items, {opacity:0, y:30});
   ScrollTrigger.create({
@@ -1630,6 +1726,230 @@ gsap.utils.toArray('.floating-note').forEach(n=>{
     el.style.top = l.top; el.style.left = l.left;
     container.appendChild(el);
     gsap.to(el, { y: i%2===0? -14:14, duration: 2.4+i*0.3, repeat:-1, yoyo:true, ease:'sine.inOut' });
+  });
+})();
+
+/* =======================================================================
+   THREE.JS — ABOUT SECTION: INTERACTIVE 3D ELECTRIC GUITAR
+   A single light-finished electric guitar, presented in a premium dark
+   stage on the left of the About section. Drag (mouse or touch) for a
+   full 360° rotation with inertia; a very slow idle spin/bob plays when
+   the visitor isn't interacting. Falls back to a static illustration if
+   WebGL is unavailable, and respects prefers-reduced-motion.
+   ======================================================================= */
+(function initAboutGuitarThree(){
+  const canvas = document.getElementById('about-guitar-canvas');
+  if(!canvas) return;
+  const fallback = document.getElementById('about-3d-fallback');
+  const hint = document.getElementById('about-3d-hint');
+  const hintText = document.getElementById('about-3d-hint-text');
+  const container = canvas.parentElement;
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  let supportsWebGL = true;
+  try{
+    const test = document.createElement('canvas');
+    supportsWebGL = !!(window.WebGLRenderingContext && (test.getContext('webgl') || test.getContext('experimental-webgl')));
+  }catch(e){ supportsWebGL = false; }
+
+  if(!supportsWebGL){
+    canvas.style.display='none';
+    if(fallback) fallback.style.display='flex';
+    if(hint) hint.style.display='none';
+    return;
+  }
+
+  const isMobile = window.innerWidth < 760;
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(32, container.clientWidth/container.clientHeight, 0.1, 100);
+  camera.position.set(0, 0.1, 7.2);
+  camera.lookAt(0, 0.1, 0);
+
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias:true, alpha:true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile?1.5:2));
+  renderer.setSize(container.clientWidth, container.clientHeight);
+
+  // premium studio-style lighting so the light-coloured body pops against
+  // the dark stage background behind it.
+  scene.add(new THREE.HemisphereLight(0xfff2df, 0x1a140d, 0.55));
+  const key = new THREE.DirectionalLight(0xfff2df, 1.25);
+  key.position.set(3, 4.5, 5);
+  scene.add(key);
+  const rim = new THREE.DirectionalLight(0xc87932, 0.9);
+  rim.position.set(-4, 1.5, -3);
+  scene.add(rim);
+  const fill = new THREE.PointLight(0xffffff, 0.35, 14);
+  fill.position.set(-1.5, -1, 3.5);
+  scene.add(fill);
+
+  const rig = new THREE.Group();
+  scene.add(rig);
+
+  // light, premium finishes — cream body / soft beige neck, kept distinct
+  // from the darker acoustic guitar used in the Hero section.
+  const bodyMat = new THREE.MeshStandardMaterial({ color:0xf3e6cf, roughness:.32, metalness:.06 });
+  const pickguardMat = new THREE.MeshStandardMaterial({ color:0xe9dcc0, roughness:.4, metalness:.05 });
+  const neckMat = new THREE.MeshStandardMaterial({ color:0xead9b8, roughness:.4, metalness:.04 });
+  const fretboardMat = new THREE.MeshStandardMaterial({ color:0x3a2c1c, roughness:.5 });
+  const hardwareMat = new THREE.MeshStandardMaterial({ color:0xd8d2c4, roughness:.3, metalness:.75 });
+  const pickupMat = new THREE.MeshStandardMaterial({ color:0x2b241d, roughness:.45, metalness:.2 });
+  const stringMat = new THREE.MeshStandardMaterial({ color:0xf7f2e8, roughness:.2, metalness:.6 });
+
+  function buildElectricGuitar(){
+    const guitar = new THREE.Group();
+
+    // ---- solid double-cutaway body ----
+    const bodyShape = new THREE.Shape();
+    bodyShape.moveTo(0, 1.3);
+    bodyShape.bezierCurveTo(0.55, 1.3, 0.75, 1.0, 0.7, 0.6);
+    bodyShape.bezierCurveTo(0.66, 0.3, 0.4, 0.25, 0.48, 0.0);
+    bodyShape.bezierCurveTo(0.58, -0.3, 0.95, -0.35, 0.95, -0.85);
+    bodyShape.bezierCurveTo(0.95, -1.35, 0.5, -1.6, 0.05, -1.6);
+    bodyShape.bezierCurveTo(-0.4, -1.6, -0.85, -1.35, -0.85, -0.85);
+    bodyShape.bezierCurveTo(-0.85, -0.35, -0.5, -0.3, -0.42, 0.0);
+    bodyShape.bezierCurveTo(-0.34, 0.25, -0.6, 0.35, -0.68, 0.65);
+    bodyShape.bezierCurveTo(-0.78, 1.05, -0.5, 1.3, 0, 1.3);
+
+    const bodyGeo = new THREE.ExtrudeGeometry(bodyShape, {
+      depth: 0.22, bevelEnabled: true, bevelSize: 0.03, bevelThickness: 0.03, bevelSegments: 4, curveSegments: 32
+    });
+    bodyGeo.center();
+    const body = new THREE.Mesh(bodyGeo, bodyMat);
+    guitar.add(body);
+
+    // pickguard
+    const guardShape = new THREE.Shape();
+    guardShape.moveTo(-0.5, 0.55);
+    guardShape.quadraticCurveTo(0.15, 0.7, 0.55, 0.35);
+    guardShape.quadraticCurveTo(0.68, -0.15, 0.5, -0.75);
+    guardShape.quadraticCurveTo(0.1, -1.0, -0.45, -0.8);
+    guardShape.quadraticCurveTo(-0.62, -0.1, -0.5, 0.55);
+    const guardGeo = new THREE.ExtrudeGeometry(guardShape, { depth:0.015, bevelEnabled:false, curveSegments:24 });
+    const guard = new THREE.Mesh(guardGeo, pickguardMat);
+    guard.position.z = 0.115;
+    guitar.add(guard);
+
+    // pickups
+    [0.28, -0.28].forEach(y=>{
+      const pickup = new THREE.Mesh(new THREE.BoxGeometry(0.42, 0.11, 0.05), pickupMat);
+      pickup.position.set(0, y, 0.145);
+      guitar.add(pickup);
+    });
+
+    // bridge
+    const bridge = new THREE.Mesh(new THREE.BoxGeometry(0.44, 0.1, 0.05), hardwareMat);
+    bridge.position.set(0, -0.72, 0.14);
+    guitar.add(bridge);
+
+    // control knobs
+    [[-0.32,-0.95],[-0.1,-1.05],[0.12,-1.1]].forEach(([x,y])=>{
+      const knob = new THREE.Mesh(new THREE.CylinderGeometry(0.05,0.05,0.04,16), hardwareMat);
+      knob.rotation.x = Math.PI/2;
+      knob.position.set(x, y, 0.135);
+      guitar.add(knob);
+    });
+
+    // neck + fretboard
+    const neck = new THREE.Mesh(new THREE.BoxGeometry(0.17, 1.7, 0.1), neckMat);
+    neck.position.set(0, 1.95, 0.01);
+    guitar.add(neck);
+    const fretboard = new THREE.Mesh(new THREE.BoxGeometry(0.19, 1.65, 0.02), fretboardMat);
+    fretboard.position.set(0, 1.95, 0.065);
+    guitar.add(fretboard);
+    for(let i=0;i<10;i++){
+      const fret = new THREE.Mesh(new THREE.BoxGeometry(0.19, 0.008, 0.005), hardwareMat);
+      fret.position.set(0, 1.25 + i*0.15, 0.076);
+      guitar.add(fret);
+    }
+
+    // headstock (inline, strat-style) + tuners on one edge
+    const headShape = new THREE.Shape();
+    headShape.moveTo(-0.1, 0);
+    headShape.lineTo(0.11, 0);
+    headShape.lineTo(0.2, 0.55);
+    headShape.lineTo(0.05, 0.62);
+    headShape.lineTo(-0.16, 0.5);
+    headShape.lineTo(-0.1, 0);
+    const headGeo = new THREE.ExtrudeGeometry(headShape, { depth:0.08, bevelEnabled:true, bevelSize:0.01, bevelThickness:0.01, curveSegments:12 });
+    const headstock = new THREE.Mesh(headGeo, neckMat);
+    headstock.position.set(-0.06, 2.75, -0.04);
+    guitar.add(headstock);
+    for(let i=0;i<6;i++){
+      const tuner = new THREE.Mesh(new THREE.CylinderGeometry(0.028,0.028,0.09,10), hardwareMat);
+      tuner.rotation.z = Math.PI/2;
+      tuner.position.set(0.24, 2.95 - i*0.14, -0.02);
+      guitar.add(tuner);
+    }
+
+    // strings
+    for(let i=0;i<6;i++){
+      const x = -0.1 + i*0.04;
+      const points = [
+        new THREE.Vector3(x*1.5, -0.72, 0.165),
+        new THREE.Vector3(x*0.9, 3.0, 0.03)
+      ];
+      const strand = new THREE.Line(new THREE.BufferGeometry().setFromPoints(points), stringMat);
+      guitar.add(strand);
+    }
+
+    guitar.scale.setScalar(0.82);
+    guitar.position.set(0.05, -0.35, 0);
+    guitar.rotation.x = -0.03;
+
+    return guitar;
+  }
+
+  if(GUITAR_MODEL_URL && typeof THREE.GLTFLoader === 'function'){
+    const loader = new THREE.GLTFLoader();
+    loader.load(GUITAR_MODEL_URL, gltf=>{ rig.add(gltf.scene); }, undefined, ()=>{ rig.add(buildElectricGuitar()); });
+  } else {
+    rig.add(buildElectricGuitar());
+  }
+
+  let idleT = Math.random()*10;
+  let isDragging=false, prevX=0, velocity=0, rotY = -0.55;
+  rig.rotation.y = rotY;
+
+  function pointerDown(x){ isDragging=true; prevX=x; velocity=0; }
+  function pointerMove(x){
+    if(!isDragging) return;
+    const dx = x - prevX;
+    velocity = dx * 0.007;
+    rotY += velocity;
+    prevX = x;
+    if(hint) gsap.to(hint, {opacity:0, duration:.4});
+  }
+  function pointerUp(){ isDragging=false; }
+
+  canvas.addEventListener('mousedown', e=> pointerDown(e.clientX));
+  window.addEventListener('mousemove', e=> pointerMove(e.clientX));
+  window.addEventListener('mouseup', pointerUp);
+  canvas.addEventListener('touchstart', e=> pointerDown(e.touches[0].clientX), {passive:true});
+  canvas.addEventListener('touchmove', e=> pointerMove(e.touches[0].clientX), {passive:true});
+  canvas.addEventListener('touchend', pointerUp);
+  if(hintText) hintText.textContent = isMobile ? 'Swipe to rotate' : 'Drag to rotate';
+
+  function animate(){
+    requestAnimationFrame(animate);
+    if(!isDragging){
+      velocity *= 0.94;
+      rotY += velocity;
+      if(!reduceMotion) rotY += 0.0009; // very slow idle rotation
+    }
+    rig.rotation.y = rotY;
+    if(!reduceMotion){
+      idleT += 0.016;
+      rig.position.y = Math.sin(idleT*0.8) * 0.04;
+    }
+    renderer.render(scene, camera);
+  }
+  animate();
+
+  window.addEventListener('resize', ()=>{
+    const w = container.clientWidth, h = container.clientHeight;
+    if(!w || !h) return;
+    camera.aspect = w/h; camera.updateProjectionMatrix();
+    renderer.setSize(w,h);
   });
 })();
 
